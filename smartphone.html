@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Smartphone – The New Phone</title>
+
+  <style>
+    :root{
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --red:#ef4444;
+      --red2:#fb7185;
+      --border:#eef2f7;
+      --shadow: 0 18px 40px rgba(239,68,68,.10);
+      --shadow2: 0 12px 26px rgba(15,23,42,.06);
+      --radius: 18px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 30% -10%, rgba(239,68,68,.10), transparent 55%),
+                  radial-gradient(900px 600px at 90% 10%, rgba(251,113,133,.08), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:auto;padding:0 18px}
+
+    /* ===== Topbar ===== */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .header{
+      height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:900;
+      letter-spacing:.6px;
+      color:var(--text);
+    }
+    .bolt{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
+      background: linear-gradient(180deg, rgba(239,68,68,.16), rgba(239,68,68,.06));
+      border:1px solid rgba(239,68,68,.18);
+      box-shadow: 0 10px 25px rgba(239,68,68,.15);
+      transform: translateZ(0);
+      animation: pop 900ms ease both;
+    }
+    @keyframes pop{
+      from{transform:scale(.9);opacity:.0}
+      to{transform:scale(1);opacity:1}
+    }
+    .brandName{font-size:28px;color:#000}
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+      font-weight:700;
+      color:#374151;
+    }
+    .nav a{position:relative;padding:8px 2px}
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;bottom:2px;
+      width:0;height:2px;
+      background: linear-gradient(90deg, var(--red), var(--red2));
+      transition: width .25s ease;
+    }
+    .nav a:hover::after{width:100%}
+
+    .ctaTop{
+      padding:10px 14px;
+      border-radius:14px;
+      background: linear-gradient(90deg, var(--red), var(--red2));
+      color:white;
+      font-weight:900;
+      border:1px solid rgba(239,68,68,.25);
+      box-shadow: 0 14px 28px rgba(239,68,68,.18);
+      transition: transform .2s ease, box-shadow .2s ease;
+      white-space:nowrap;
+    }
+    .ctaTop:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(239,68,68,.24);
+    }
+    .pulseDot{
+      display:inline-block;
+      width:8px;height:8px;border-radius:999px;
+      background:#fff;
+      margin-right:8px;
+      box-shadow: 0 0 0 rgba(255,255,255,.7);
+      animation: pulse 1.4s infinite;
+    }
+    @keyframes pulse{
+      0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}
+      70%{box-shadow:0 0 0 10px rgba(255,255,255,0)}
+      100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
+    }
+
+    /* ===== Hero ===== */
+    .hero{padding:34px 0 12px}
+    .heroTitle{font-size:34px;font-weight:900;letter-spacing:-0.3px}
+    .heroSub{margin-top:8px;color:var(--muted);font-size:16px}
+
+    /* ===== Brand grid ===== */
+    .grid{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:22px;
+    }
+    @media (max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:520px){
+      .grid{grid-template-columns:1fr}
+      .brandName{font-size:22px}
+      .nav{display:none;} /* option: cache la nav sur très petit écran */
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      height:220px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      gap:14px;
+      box-shadow:var(--shadow2);
+      position:relative;
+      overflow:hidden;
+      transform:translateY(10px);
+      opacity:0;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .card.reveal{animation:rise .7s ease forwards}
+    @keyframes rise{to{transform:translateY(0);opacity:1}}
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-60%;
+      background: radial-gradient(circle at 30% 20%, rgba(239,68,68,.14), transparent 55%),
+                  radial-gradient(circle at 70% 30%, rgba(251,113,133,.10), transparent 60%);
+      filter:blur(18px);
+      opacity:.8;
+      transform:translateX(-8%);
+      pointer-events:none;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      top:-60%;
+      left:-120%;
+      width:120%;
+      height:220%;
+      background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.65) 50%, transparent 65%);
+      transform: rotate(12deg);
+      opacity:0;
+      pointer-events:none;
+    }
+    .card:hover{
+      transform:translateY(-7px);
+      box-shadow:var(--shadow);
+      border-color:rgba(239,68,68,.22);
+    }
+    .card:hover::after{opacity:1;animation:shimmer 1.1s ease}
+    @keyframes shimmer{from{left:-120%}to{left:120%}}
+
+    .logoBox{
+      width:120px;height:120px;
+      display:grid;place-items:center;
+      border-radius:22px;
+      background:#fff;
+      border:1px solid #f2f4f8;
+    }
+    .label{font-weight:900;color:#334155;font-size:16px}
+    .hint{font-size:12px;color:var(--muted);margin-top:-6px}
+
+    /* ===== Footer (1 seul footer) ===== */
+    .footer{
+      background:#0b1220;
+      color:#fff;
+      padding:46px 20px;
+      margin-top:70px;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+    .footer-container{
+      max-width:1200px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:34px;
+    }
+    .footer h3{
+      margin-bottom:12px;
+      font-size:16px;
+      color:#93c5fd;
+      letter-spacing:.3px;
+    }
+    .footer a{
+      display:block;
+      color:#cbd5e1;
+      text-decoration:none;
+      margin-bottom:8px;
+      transition:.25s;
+    }
+    .footer a:hover{
+      color:#93c5fd;
+      transform:translateX(4px);
+    }
+    .footer p{margin:6px 0;color:#cbd5e1}
+    .footer-bottom{
+      text-align:center;
+      margin-top:32px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.10);
+      font-size:13px;
+      color:#94a3b8;
+    }
+    .brandLogo{
+  height:50px;
+  width:auto;
+  display:block;
+}
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container header">
+      <div class="brand">
+  <img src="assets/logo.png" alt="The New Phone" class="brandLogo">
+</div>
+
+
+      <nav class="nav">
+        <a href="index.html">Accueil</a>
+        <a href="smartphone.html">Smartphone</a>
+        <a href="tablette.html">Tablette</a>
+        <a href="ordinateur.html">Ordinateur</a>
+        <a href="magasin.html">Magasin</a>
+      </nav>
+
+      <a class="ctaTop" href="contact.html"><span class="pulseDot"></span>Réparer</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="heroTitle">Réparation de Smartphone</div>
+      <div class="heroSub">Choisissez la marque de votre téléphone</div>
+    </section>
+
+    <section class="grid" id="grid">
+      <!-- Apple -->
+      <a class="card" href="smartphone-apple.html" aria-label="Apple">
+        <div class="logoBox">
+          <svg width="86" height="86" viewBox="0 0 256 256" aria-hidden="true">
+            <path fill="#111827" d="M184.1 134.2c.2 23.2 20.3 30.9 20.5 31-0.2.6-3.2 11.1-10.6 22-6.4 9.4-13.1 18.7-23.6 18.9-10.3.2-13.6-6.1-25.4-6.1-11.8 0-15.5 5.9-25.2 6.3-10.1.4-17.8-10.2-24.3-19.6-13.2-19.1-23.3-54-9.7-77.5 6.8-11.7 18.9-19.1 32.1-19.3 10-.2 19.5 6.8 25.4 6.8 5.9 0 17-8.4 28.7-7.2 4.9.2 18.8 2 27.7 15.1-0.7.4-16.5 9.7-16.3 29.6ZM164.9 49.6c5.3-6.4 8.9-15.2 7.9-24.1-7.6.3-16.8 5.1-22.2 11.5-4.9 5.7-9.2 14.8-8.1 23.5 8.5.7 17.1-4.3 22.4-10.9Z"/>
+          </svg>
+        </div>
+        <div class="label">Apple</div>
+        <div class="hint">iPhone</div>
+      </a>
+
+      <!-- Samsung -->
+      <a class="card" href="smartphone-samsung.html" aria-label="Samsung">
+        <div class="logoBox">
+          <svg width="120" height="40" viewBox="0 0 520 170" aria-hidden="true">
+            <text x="0" y="120" font-size="110" font-weight="900" fill="#111827" font-family="Arial">Samsung</text>
+          </svg>
+        </div>
+        <div class="label">Samsung</div>
+        <div class="hint">Galaxy</div>
+      </a>
+
+      <!-- Huawei -->
+      <a class="card" href="smartphone-huawei.html" aria-label="Huawei">
+        <div class="logoBox">
+          <svg width="110" height="50" viewBox="0 0 460 180" aria-hidden="true">
+            <text x="0" y="120" font-size="110" font-weight="900" fill="#ef4444" font-family="Arial">HUAWEI</text>
+          </svg>
+        </div>
+        <div class="label">Huawei</div>
+        <div class="hint">P / Mate</div>
+      </a>
+
+      <!-- Xiaomi -->
+      <a class="card" href="smartphone-xiaomi.html" aria-label="Xiaomi">
+        <div class="logoBox">
+          <svg width="92" height="92" viewBox="0 0 256 256" aria-hidden="true">
+            <rect x="24" y="24" width="208" height="208" rx="28" fill="#fb923c"/>
+            <text x="76" y="168" font-size="110" font-weight="900" fill="#fff" font-family="Arial">mi</text>
+          </svg>
+        </div>
+        <div class="label">Xiaomi</div>
+        <div class="hint">Redmi / Mi</div>
+      </a>
+
+      <!-- Sony -->
+      <a class="card" href="smartphone-sony.html" aria-label="Sony">
+        <div class="logoBox">
+          <svg width="130" height="40" viewBox="0 0 520 170" aria-hidden="true">
+            <text x="0" y="120" font-size="120" font-weight="900" fill="#111827" font-family="Arial">SONY</text>
+          </svg>
+        </div>
+        <div class="label">Sony</div>
+        <div class="hint">Xperia</div>
+      </a>
+
+      <!-- Wiko -->
+      <a class="card" href="smartphone-wiko.html" aria-label="Wiko">
+        <div class="logoBox">
+          <svg width="120" height="50" viewBox="0 0 520 170" aria-hidden="true">
+            <text x="0" y="120" font-size="120" font-weight="900" fill="#06b6d4" font-family="Arial">Wiko</text>
+          </svg>
+        </div>
+        <div class="label">Wiko</div>
+        <div class="hint">U Feel / View</div>
+      </a>
+
+      <!-- Nokia -->
+      <a class="card" href="smartphone-nokia.html" aria-label="Nokia">
+        <div class="logoBox">
+          <svg width="120" height="45" viewBox="0 0 520 170" aria-hidden="true">
+            <text x="0" y="120" font-size="120" font-weight="900" fill="#1d4ed8" font-family="Arial">NOKIA</text>
+          </svg>
+        </div>
+        <div class="label">Nokia</div>
+        <div class="hint">Série X / G</div>
+      </a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div>
+        <h3>Contact</h3>
+        <p>📍 8 Rue de Marseille, 69007 Lyon</p>
+        <p>📞 04 87 78 79 95</p>
+        <p>📧 7henewphone@gmail.com</p>
+      </div>
+
+      <div>
+        <h3>Navigation</h3>
+        <a href="faq.html">FAQ</a>
+        <a href="nos-services.html">Nos services</a>
+        <a href="smartphone.html">Smartphones</a>
+        <a href="magasins.html">Nos magasins</a>
+      </div>
+
+      <div>
+        <h3>Suivez-nous</h3>
+        <a href="https://instagram.com/thenewphone69" target="_blank" rel="noopener">📸 Instagram : @thenewphone69</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © <span id="year"></span> THE NEW PHONE — Tous droits réservés
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const cards = document.querySelectorAll(".card");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("reveal");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    cards.forEach((c, i) => {
+      c.style.animationDelay = (i * 70) + "ms";
+      io.observe(c);
+    });
+  </script>
+</body>
+</html>
+
+

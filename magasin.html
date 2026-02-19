@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magasin – The New Phone</title>
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+  body{
+    background: radial-gradient(1200px 700px at 20% -10%, rgba(239,68,68,.10), transparent 55%),
+                radial-gradient(900px 600px at 90% 10%, rgba(239,68,68,.06), transparent 55%),
+                #f7f7f7;
+    color:#1f2937;
+    overflow-x:hidden;
+  }
+  a{text-decoration:none;color:inherit}
+
+  /* ===== HEADER ===== */
+  header{
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid #eee;
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .nav{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px;
+    gap:14px;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    font-weight:900;
+    color:#3b82f6;
+  }
+  .bolt{
+    width:38px;height:38px;border-radius:14px;
+    display:grid;place-items:center;
+    background:#ffe4e6;
+    border:1px solid #fecdd3;
+    animation: pop .9s ease both;
+  }
+  @keyframes pop{
+    from{transform:scale(.85);opacity:0}
+    to{transform:scale(1);opacity:1}
+  }
+  .menu a{
+    margin-left:18px;
+    font-weight:700;
+    color:#374151;
+    position:relative;
+  }
+  .menu a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-6px;
+    width:0%;
+    height:2px;
+    background:#ef4444;
+    transition:width .25s ease;
+  }
+  .menu a:hover::after{width:100%}
+
+  /* ===== HERO ===== */
+  .hero{
+    max-width:1200px;
+    margin: 34px auto 0;
+    padding: 0 18px;
+  }
+  .heroCard{
+    position:relative;
+    overflow:hidden;
+    border-radius:22px;
+    background: #fff;
+    border:1px solid #eee;
+    box-shadow: 0 18px 40px rgba(0,0,0,.08);
+  }
+  .heroTop{
+    padding: 26px 26px 10px;
+  }
+  h1{
+    font-size:38px;
+    font-weight:900;
+    letter-spacing:-.3px;
+  }
+  .sub{
+    margin-top:8px;
+    color:#6b7280;
+  }
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:16px;
+  }
+  .chip{
+    background:#fff1f2;
+    border:1px solid #fecdd3;
+    color:#be123c;
+    font-weight:800;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:13px;
+  }
+
+  /* animated background blob */
+  .blob{
+    position:absolute;
+    width:520px;height:520px;
+    right:-180px; top:-220px;
+    background: radial-gradient(circle at 30% 30%, rgba(239,68,68,.26), transparent 60%),
+                radial-gradient(circle at 70% 70%, rgba(59,130,246,.18), transparent 55%);
+    filter: blur(18px);
+    animation: float 7s ease-in-out infinite alternate;
+    pointer-events:none;
+  }
+  @keyframes float{
+    from{transform:translateY(0) translateX(0) scale(1)}
+    to{transform:translateY(22px) translateX(-14px) scale(1.06)}
+  }
+
+  /* ===== CONTENT GRID ===== */
+  .content{
+    max-width:1200px;
+    margin: 18px auto 70px;
+    padding: 0 18px;
+    display:grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 18px;
+  }
+  @media (max-width: 950px){
+    .content{grid-template-columns:1fr;}
+  }
+
+  .box{
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:22px;
+    box-shadow: 0 14px 30px rgba(0,0,0,.06);
+    padding:22px;
+    opacity:0;
+    transform: translateY(18px);
+  }
+  .box.reveal{
+    animation: fadeUp .7s ease forwards;
+  }
+  @keyframes fadeUp{
+    to{opacity:1;transform:translateY(0)}
+  }
+
+  .box h2{
+    font-size:20px;
+    font-weight:900;
+    margin-bottom:10px;
+  }
+  .infoList{
+    list-style:none;
+    margin-top:10px;
+    display:grid;
+    gap:10px;
+    color:#374151;
+  }
+  .row{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:10px 12px;
+    border-radius:14px;
+    background:#f9fafb;
+    border:1px solid #f1f1f1;
+  }
+  .ico{width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:#ffe4e6;border:1px solid #fecdd3}
+
+  .actions{
+    margin-top:14px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 16px;
+    border-radius:14px;
+    font-weight:900;
+    border:1px solid #fecdd3;
+    background:#ef4444;
+    color:#fff;
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+  }
+  .btn:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(239,68,68,.22)}
+  .btn.out{
+    background:#fff;
+    color:#ef4444;
+    border:2px solid #ef4444;
+  }
+  .btn.out:hover{filter:brightness(.98);box-shadow:0 12px 24px rgba(239,68,68,.12)}
+
+  /* Map */
+  .mapWrap{
+    overflow:hidden;
+    border-radius:22px;
+    border:1px solid #eee;
+    background:#fff;
+    box-shadow: 0 14px 30px rgba(0,0,0,.06);
+    opacity:0;
+    transform: translateY(18px);
+  }
+  .mapWrap.reveal{animation: fadeUp .7s ease forwards}
+  iframe{width:100%;height:420px;border:0}
+
+  /* Footer */
+  footer{
+    background:#fff;
+    border-top:1px solid #eee;
+  }
+  .footer{
+    max-width:1200px;
+    margin:auto;
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    color:#6b7280;
+    font-weight:700;
+  } 
+  .brandLogo{
+  height:50px;
+  width:auto;
+  display:block;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+  <img src="assets/logo.png" alt="The New Phone" class="brandLogo">
+</div>
+
+    <div class="menu">
+      <a href="index.html">Accueil</a>
+      <a href="smartphone.html">Smartphone</a>
+      <a href="tablette.html">Tablette</a>
+      <a href="ordinateur.html">Ordinateur</a>
+      
+      <a href="magasin.html">Magasin</a>
+    </div>
+  </div>
+</header>
+
+<main class="hero">
+  <div class="heroCard">
+    <div class="blob"></div>
+
+    <div class="heroTop">
+      <h1>Notre magasin</h1>
+      <div class="sub">The New Phone • Lyon 7 — réparation express</div>
+
+      <div class="chips">
+        <div class="chip">📍 8 Rue de Marseille, 69007 Lyon</div>
+        <div class="chip">📞 04 87 78 79 95</div>
+        <div class="chip">🛠️ Téléphonie • Informatique</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section class="content">
+  <div class="box" id="infoBox">
+    <h2>Infos & contact</h2>
+
+    <ul class="infoList">
+      <li class="row">
+        <div class="ico">📍</div>
+        <div><strong>Adresse</strong><br>8 Rue de Marseille, 69007 Lyon</div>
+      </li>
+      <li class="row">
+        <div class="ico">📞</div>
+        <div><strong>Téléphone</strong><br>04 87 78 79 95</div>
+      </li>
+      <li class="row">
+        <div class="ico">⏰</div>
+        <div><strong>Horaires</strong><br>Lun–Sam : 10h–19h</div>
+      </li>
+      <li class="row">
+        <div class="ico">✅</div>
+        <div><strong>Services</strong><br>Écran • Batterie • Connecteur • Diagnostic</div>
+      </li>
+    </ul>
+
+    <div class="actions">
+      <a class="btn" href="tel:0487787995">📞 Appeler</a>
+      <a class="btn out" target="_blank" href="https://www.google.com/maps?q=8%20Rue%20de%20Marseille%2069007%20Lyon">📍 Itinéraire</a>
+      <a class="btn out" href="contact.html">💬 Écrire un message</a>
+    </div>
+  </div>
+
+  <div class="mapWrap" id="mapBox">
+    <iframe
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      src="https://www.google.com/maps?q=8%20Rue%20de%20Marseille%2069007%20Lyon&output=embed">
+    </iframe>
+  </div>
+</section>
+
+<footer>
+  <div class="footer">
+    <div>© <span id="year"></span> The New Phone — Lyon 7</div>
+    <div>📞 04 87 78 79 95</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Reveal animation when boxes appear
+  const targets = [document.getElementById("infoBox"), document.getElementById("mapBox")];
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add("reveal");
+        io.unobserve(e.target);
+      }
+    })
+  }, {threshold:0.15});
+
+  targets.forEach(t => io.observe(t));
+</script>
+
+</body>
+</html>
+
+
+</body>
+</html>

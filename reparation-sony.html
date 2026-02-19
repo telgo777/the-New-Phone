@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Réparation SONY</title>
+
+  <style>
+    :root{
+      --bg:#eef5ff;
+      --card1:#eaf4ff;
+      --card2:#f6fbff;
+      --blue:#78b9ff;
+      --blue2:#a7d4ff;
+      --text:#1f2a37;
+      --muted:#6b7280;
+      --shadow: 0 18px 45px rgba(0,0,0,.10);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 70% 10%, #d9ecff 0%, var(--bg) 55%, #eaf3ff 100%);
+      color:var(--text);
+    }
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.85);
+      backdrop-filter: blur(12px);
+      border-bottom:1px solid rgba(120,185,255,.25);
+    }
+    .topbarInner{
+      max-width:1100px;
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .btn{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:700;
+      border:1px solid rgba(120,185,255,.35);
+      background: linear-gradient(180deg, #ffffff 0%, #f3f9ff 100%);
+      box-shadow: 0 10px 25px rgba(120,185,255,.15);
+      color:#1f2a37;
+      transition:.25s;
+    }
+    .btn:hover{transform: translateY(-1px); box-shadow: 0 14px 30px rgba(120,185,255,.20);}
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:26px 18px 60px;
+    }
+
+    h1{
+      text-align:center;
+      margin:22px 0 8px;
+      font-size:34px;
+      font-weight:900;
+    }
+    .sub{
+      text-align:center;
+      margin:0;
+      color:var(--muted);
+      font-weight:700;
+    }
+    .line{
+      height:4px;
+      max-width:860px;
+      margin:14px auto 0;
+      border-radius:999px;
+      background: linear-gradient(90deg, transparent 0%, var(--blue) 15%, var(--blue2) 50%, var(--blue) 85%, transparent 100%);
+      box-shadow: 0 10px 25px rgba(120,185,255,.25);
+    }
+
+    .card{
+      margin:36px auto 0;
+      max-width:720px;
+      border-radius:28px;
+      background:
+        radial-gradient(180px 180px at 85% 18%, rgba(120,185,255,.28) 0%, rgba(120,185,255,.10) 50%, transparent 51%),
+        linear-gradient(180deg, var(--card1) 0%, var(--card2) 100%);
+      border:1px solid rgba(120,185,255,.28);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+      padding:28px;
+      animation: pop .55s ease both;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:-40% -30% auto -30%;
+      height:70%;
+      background: linear-gradient(120deg, rgba(255,255,255,.55), rgba(255,255,255,0));
+      transform: rotate(12deg);
+      opacity:.65;
+      pointer-events:none;
+    }
+
+    .row{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .left h2{
+      margin:0 0 6px;
+      font-size:26px;
+      font-weight:900;
+    }
+    .left .mini{margin:0; color:var(--muted); font-weight:700;}
+    .pill{
+      display:inline-flex;
+      margin-top:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(120,185,255,.18);
+      border:1px solid rgba(120,185,255,.25);
+      font-weight:800;
+      color:#1f2a37;
+    }
+
+    .reserve{
+      border:none;
+      cursor:pointer;
+      padding:12px 16px;
+      border-radius:14px;
+      font-weight:900;
+      background: linear-gradient(180deg, #8bc6ff 0%, #2f9bff 100%);
+      color:white;
+      box-shadow: 0 18px 35px rgba(47,155,255,.25);
+      transition:.25s;
+    }
+    .reserve:hover{transform: translateY(-2px); box-shadow: 0 24px 45px rgba(47,155,255,.30);}
+
+    /* Modal */
+    .modalBg{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.30);
+      backdrop-filter: blur(6px);
+      z-index:100;
+      padding:20px;
+    }
+    .modal{
+      max-width:900px;
+      margin:40px auto;
+      background:white;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,.25);
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+    }
+    @media (max-width:900px){ .modal{grid-template-columns:1fr;} }
+
+    .modalLeft{padding:22px;}
+    .modalRight{
+      padding:22px;
+      background: linear-gradient(180deg, #f4fbff 0%, #eaf4ff 100%);
+      border-left:1px solid rgba(120,185,255,.25);
+    }
+    .modalTop{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .close{
+      border:none; cursor:pointer;
+      font-size:18px;
+      background:#eef6ff;
+      border:1px solid rgba(120,185,255,.35);
+      border-radius:12px;
+      padding:8px 10px;
+      font-weight:900;
+    }
+
+    label{display:block; font-weight:800; margin:12px 0 6px;}
+    input, select, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid #dbe7f7;
+      outline:none;
+      font-weight:700;
+      background:#fbfdff;
+    }
+    textarea{min-height:90px; resize:vertical;}
+
+    .send{
+      margin-top:14px;
+      width:100%;
+      padding:12px 14px;
+      border:none;
+      border-radius:14px;
+      font-weight:900;
+      background: linear-gradient(180deg, #8bc6ff 0%, #2f9bff 100%);
+      color:white;
+      cursor:pointer;
+    }
+
+    @keyframes pop{
+      from{opacity:0; transform: translateY(10px) scale(.98)}
+      to{opacity:1; transform: translateY(0) scale(1)}
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="topbarInner">
+      <a class="btn" href="smartphone-sony.html">← Retour Sony</a>
+      <a class="btn" href="smartphone.html">← Smartphone</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <h1 id="title">Réparation SONY</h1>
+    <p class="sub">Choisissez la réparation (1 seule) — Magasin Lyon 7</p>
+    <div class="line"></div>
+
+    <div class="card">
+      <div class="row">
+        <div class="left">
+          <h2>Changement écran</h2>
+          <p class="mini" id="modelLine">Modèle : —</p>
+          <span class="pill">Prix : variés</span>
+          <p class="mini" style="margin-top:10px;">Magasin : 8 Rue de Marseille, 69007 Lyon</p>
+        </div>
+
+        <button class="reserve" onclick="openModal()">RÉSERVER</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modalBg" id="modalBg" onclick="bgClose(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modalLeft">
+        <div class="modalTop">
+          <div style="font-weight:900">Prise de rendez-vous</div>
+          <button class="close" onclick="closeModal()">✕</button>
+        </div>
+
+        <form onsubmit="submitForm(event)">
+          <label>Magasin</label>
+          <select required>
+            <option value="Lyon7">8 Rue de Marseille, 69007 Lyon</option>
+          </select>
+
+          <label>Nom</label>
+          <input required placeholder="Votre nom">
+
+          <label>Prénom</label>
+          <input required placeholder="Votre prénom">
+
+          <label>Téléphone</label>
+          <input required placeholder="06...">
+
+          <label>Email</label>
+          <input type="email" required placeholder="email@exemple.com">
+
+          <label>Date</label>
+          <input type="date" required>
+
+          <label>Heure</label>
+          <input type="time" required>
+
+          <label>Remarque</label>
+          <textarea placeholder="Détail (optionnel)"></textarea>
+
+          <button class="send" type="submit">CONFIRMER</button>
+        </form>
+      </div>
+
+      <div class="modalRight">
+        <div style="font-weight:900; font-size:18px; margin-bottom:10px;">
+          Récapitulatif
+        </div>
+        <div style="font-weight:800; margin-bottom:6px;">Réparation</div>
+        <div>Changement écran</div>
+
+        <div style="font-weight:800; margin:14px 0 6px;">Modèle</div>
+        <div id="sumModel">—</div>
+
+        <div style="font-weight:800; margin:14px 0 6px;">Prix</div>
+        <div>Prix : variés</div>
+
+        <div style="font-weight:800; margin:14px 0 6px;">Magasin</div>
+        <div>8 Rue de Marseille, 69007 Lyon</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const modele = params.get("modele") || "Sony";
+    document.getElementById("title").textContent = "Réparation " + modele;
+    document.getElementById("modelLine").textContent = "Modèle : " + modele;
+    document.getElementById("sumModel").textContent = modele;
+
+    function openModal(){ document.getElementById("modalBg").style.display = "block"; }
+    function closeModal(){ document.getElementById("modalBg").style.display = "none"; }
+    function bgClose(e){ if(e.target.id === "modalBg") closeModal(); }
+
+    function submitForm(e){
+      e.preventDefault();
+      alert("✅ Demande envoyée pour : " + modele + " (Changement écran)\\nMagasin : 8 Rue de Marseille, 69007 Lyon");
+      closeModal();
+    }
+  </script>
+
+</body>
+</html>
+

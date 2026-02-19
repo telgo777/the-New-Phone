@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Réparation Wiko — The New Phone</title>
+
+  <style>
+    :root{
+      --blue:#2f9bff;
+      --blueSoft:#eaf4ff;
+      --shadow:0 18px 45px rgba(0,0,0,.10);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#111}
+
+    header{
+      background:#fff;
+      padding:18px 22px;
+      display:flex;align-items:center;justify-content:space-between;
+      box-shadow:0 2px 10px rgba(0,0,0,.06);
+      position:sticky;top:0;z-index:50;
+    }
+    .brand{font-weight:900;letter-spacing:.5px;color:var(--blue);font-size:20px}
+    .backBtn{
+      text-decoration:none;background:var(--blueSoft);color:var(--blue);
+      padding:10px 16px;border-radius:999px;font-weight:800;
+      transition:.2s;
+    }
+    .backBtn:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(47,155,255,.2)}
+
+    .breadcrumb{max-width:1200px;margin:18px auto 0;padding:0 18px;color:#6b7280;font-size:14px}
+    .container{max-width:1200px;margin:0 auto;padding:0 18px}
+
+    .title{text-align:center;margin:20px 0 6px;font-size:44px;font-weight:900}
+    .subtitle{text-align:center;color:#6b7280;margin:0 0 16px}
+    .hr{
+      max-width:900px;height:4px;
+      background:linear-gradient(90deg,transparent,var(--blue),transparent);
+      margin:18px auto 30px;border-radius:999px;
+    }
+
+    .grid{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:26px;padding-bottom:60px;align-items:start;
+    }
+
+    .repairCard{
+      background:#fff;border-radius:22px;box-shadow:var(--shadow);
+      padding:26px;min-height:240px;position:relative;overflow:hidden;
+      transition:.25s;
+    }
+    .repairCard::before{
+      content:"";position:absolute;inset:-70px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(47,155,255,.26), transparent 48%),
+        radial-gradient(circle at 88% 22%, rgba(255,80,80,.12), transparent 45%);
+      transform:rotate(8deg);
+    }
+    .repairCard:hover{transform:translateY(-6px);box-shadow:0 26px 65px rgba(0,0,0,.15)}
+
+    .repairInner{position:relative;z-index:1}
+    .repairName{font-size:26px;font-weight:900;margin:0 0 6px}
+    .repairModel{color:#6b7280;font-weight:800;margin:0 0 14px}
+    .repairInfo{color:#6b7280;margin:0 0 16px;font-weight:700}
+    .price{font-weight:900;font-size:22px;margin:0 0 16px}
+    .btn{
+      display:inline-flex;gap:10px;align-items:center;justify-content:center;
+      border:none;cursor:pointer;
+      background:var(--blueSoft);color:var(--blue);
+      padding:12px 16px;border-radius:999px;font-weight:900;
+      transition:.2s;text-decoration:none;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(47,155,255,.2)}
+
+    /* MODAL */
+    .overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.45);
+      display:none;align-items:center;justify-content:center;
+      padding:18px;z-index:999;
+    }
+    .overlay.show{display:flex}
+    .modal{
+      width:min(920px,100%);background:#fff;border-radius:22px;
+      box-shadow:0 30px 90px rgba(0,0,0,.35);
+      overflow:hidden;
+      animation:pop .18s ease-out;
+    }
+    @keyframes pop{from{transform:scale(.96);opacity:.2}to{transform:scale(1);opacity:1}}
+
+    .modalTop{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 18px;border-bottom:1px solid #eef2f7;
+    }
+    .modalTop b{font-size:16px}
+    .close{
+      border:none;background:#f2f4f8;border-radius:10px;
+      padding:10px 12px;cursor:pointer;font-weight:900;
+    }
+
+    .modalBody{
+      display:grid;grid-template-columns:1.2fr .8fr;
+      gap:18px;padding:18px;
+    }
+    .panel{
+      background:#f7fbff;border:1px solid #e8f2ff;border-radius:18px;
+      padding:16px;
+    }
+
+    .field{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+    .field label{font-size:13px;color:#6b7280;font-weight:800}
+    .field input, .field select, .field textarea{
+      width:100%;
+      padding:12px 12px;border-radius:12px;border:1px solid #dde6f2;
+      outline:none;
+      font-size:14px;
+      background:#fff;
+    }
+    .field textarea{min-height:90px;resize:vertical}
+
+    .summaryTitle{font-weight:900;font-size:16px;margin:0 0 10px}
+    .summaryLine{color:#6b7280;font-weight:800;margin:0 0 8px}
+    .miniPrice{font-weight:900;font-size:22px;margin:12px 0}
+    .note{color:#6b7280;font-size:12px;font-weight:700}
+
+    .submitRow{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .primary{
+      background:var(--blue);color:#fff;
+    }
+    .primary:hover{box-shadow:0 14px 30px rgba(47,155,255,.35)}
+    .ghost{background:#fff;border:1px solid #dde6f2;color:#111}
+
+    @media(max-width:950px){
+      .grid{grid-template-columns:1fr}
+      .title{font-size:34px}
+      .modalBody{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">THE NEW PHONE</div>
+    <a class="backBtn" href="smartphone-wiko.html">← Retour Wiko</a>
+  </header>
+
+  <div class="breadcrumb" id="bc">Appareil / Smartphone / Wiko</div>
+
+  <div class="container">
+    <div class="title">Choisissez la réparation</div>
+    <div class="subtitle" id="sub">Réparation WIKO</div>
+    <div class="hr"></div>
+
+    <div class="grid">
+      <!-- UNE SEULE RÉPARATION : ÉCRAN -->
+      <div class="repairCard">
+        <div class="repairInner">
+          <div class="repairName">Changement écran</div>
+          <div class="repairModel" id="modelLine">Modèle : —</div>
+          <p class="repairInfo">Réparation en magasin (rapide). Prix : <b>variés</b> selon modèle.</p>
+          <div class="price">Prix : variés</div>
+          <button class="btn" id="openModal">📅 Réserver en magasin</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RDV -->
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modalTop">
+        <b id="modalTitle">Prise de rendez-vous</b>
+        <button class="close" id="closeModal">✕</button>
+      </div>
+
+      <div class="modalBody">
+        <div class="panel">
+          <div class="field">
+            <label>Magasin *</label>
+            <select id="shop" required>
+              <option>8 Rue de Marseille, 69007 Lyon</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Nom *</label>
+            <input id="nom" placeholder="Votre nom">
+          </div>
+
+          <div class="field">
+            <label>Prénom *</label>
+            <input id="prenom" placeholder="Votre prénom">
+          </div>
+
+          <div class="field">
+            <label>Téléphone *</label>
+            <input id="tel" placeholder="06..." inputmode="tel">
+          </div>
+
+          <div class="field">
+            <label>Email</label>
+            <input id="email" placeholder="exemple@mail.com" inputmode="email">
+          </div>
+
+          <div class="field">
+            <label>Date *</label>
+            <input id="date" type="date">
+          </div>
+
+          <div class="field">
+            <label>Heure *</label>
+            <input id="heure" type="time">
+          </div>
+
+          <div class="field">
+            <label>Remarque</label>
+            <textarea id="rem" placeholder="Ex: écran cassé, tactile fonctionne / non..."></textarea>
+          </div>
+
+          <div class="submitRow">
+            <button class="btn primary" id="confirm">Confirmer le RDV</button>
+            <button class="btn ghost" id="cancel">Annuler</button>
+          </div>
+          <p class="note">* Simulation : ça n’envoie rien. (On pourra ajouter un vrai envoi plus tard.)</p>
+        </div>
+
+        <div class="panel">
+          <div class="summaryTitle">Récapitulatif</div>
+          <p class="summaryLine" id="sumRepair">Réparation : Changement écran</p>
+          <p class="summaryLine" id="sumModel">Modèle : —</p>
+          <div class="miniPrice">Prix : variés</div>
+          <p class="note">Magasin unique : Rue de Marseille, Lyon 7.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // récupère le modèle depuis l’URL ?modele=...
+    const params = new URLSearchParams(location.search);
+    const modele = params.get("modele") || "Wiko (modèle non précisé)";
+
+    document.getElementById("modelLine").textContent = "Modèle : " + modele;
+    document.getElementById("sub").textContent = "Réparation WIKO — " + modele;
+    document.getElementById("bc").textContent = "Appareil / Smartphone / Wiko / " + modele;
+
+    document.getElementById("modalTitle").textContent = "Prise de rendez-vous : Écran — " + modele;
+    document.getElementById("sumModel").textContent = "Modèle : " + modele;
+
+    const overlay = document.getElementById("overlay");
+    const openModal = document.getElementById("openModal");
+    const closeModal = document.getElementById("closeModal");
+    const cancel = document.getElementById("cancel");
+
+    openModal.addEventListener("click", () => overlay.classList.add("show"));
+    closeModal.addEventListener("click", () => overlay.classList.remove("show"));
+    cancel.addEventListener("click", () => overlay.classList.remove("show"));
+    overlay.addEventListener("click", (e) => { if(e.target === overlay) overlay.classList.remove("show"); });
+
+    document.getElementById("confirm").addEventListener("click", () => {
+      const nom = document.getElementById("nom").value.trim();
+      const prenom = document.getElementById("prenom").value.trim();
+      const tel = document.getElementById("tel").value.trim();
+      const date = document.getElementById("date").value;
+      const heure = document.getElementById("heure").value;
+
+      if(!nom || !prenom || !tel || !date || !heure){
+        alert("Remplis au moins : Nom, Prénom, Téléphone, Date, Heure.");
+        return;
+      }
+      alert("✅ RDV demandé !\\n\\n" +
+            "Réparation: Changement écran\\n" +
+            "Modèle: " + modele + "\\n" +
+            "Magasin: 8 Rue de Marseille, 69007 Lyon\\n" +
+            "Date: " + date + " à " + heure);
+      overlay.classList.remove("show");
+    });
+  </script>
+</body>
+</html>
+

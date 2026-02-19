@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Réparations Apple - Tablette</title>
+  <style>
+    :root{--bg:#eef3f8;--card:#ffffffcc;--text:#0f172a;--muted:#64748b;--blue:#2f7bdc;--shadow:0 18px 40px rgba(15,23,42,.10);--radius:22px}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);
+      background:radial-gradient(900px 300px at 20% 20%, rgba(47,123,220,.18), transparent 60%),
+              radial-gradient(900px 300px at 80% 10%, rgba(59,130,246,.12), transparent 60%),
+              linear-gradient(180deg,#f7fbff 0%, var(--bg) 100%);min-height:100vh}
+    .topbar{position:sticky;top:0;backdrop-filter:blur(10px);background:rgba(247,251,255,.75);border-bottom:1px solid rgba(15,23,42,.06);z-index:10}
+    .topbar-inner{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{font-weight:900;letter-spacing:.3px;display:flex;align-items:center;gap:10px}
+    .brand .dot{width:10px;height:10px;border-radius:999px;background:var(--blue);box-shadow:0 0 0 6px rgba(47,123,220,.15)}
+    .btn-back{text-decoration:none;display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;border:1px solid rgba(15,23,42,.10);color:var(--text);background:rgba(255,255,255,.8);box-shadow:0 10px 20px rgba(15,23,42,.08);font-weight:700}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px 16px 56px}
+    .crumb{color:var(--muted);font-size:14px;margin:8px 0 12px}
+    .hero{text-align:center;padding:18px 10px 10px}
+    .hero h1{margin:6px 0 6px;font-size:clamp(26px,3vw,40px);letter-spacing:-.5px}
+    .hero p{margin:0;color:var(--muted);font-weight:600}
+    .rule{height:4px;width:min(780px,90%);margin:16px auto 26px;background:linear-gradient(90deg,transparent,var(--blue),transparent);border-radius:999px;opacity:.9}
+
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+    @media (max-width:980px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:520px){.grid{grid-template-columns:1fr}}
+
+    .card{position:relative;border-radius:var(--radius);background:var(--card);border:1px solid rgba(15,23,42,.06);box-shadow:var(--shadow);
+      overflow:hidden;min-height:190px;display:flex;flex-direction:column;justify-content:space-between;padding:18px;transition:transform .15s ease, box-shadow .15s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 26px 60px rgba(15,23,42,.16)}
+    .blob{position:absolute;inset:auto auto 0 0;width:140px;height:140px;border-radius:36px;
+      background:radial-gradient(circle at 30% 30%, rgba(47,123,220,.35), rgba(47,123,220,.10) 55%, transparent 70%);
+      transform:translate(-30px,30px) rotate(12deg)}
+    .pill{position:relative;display:inline-flex;align-items:center;gap:8px;
+      font-size:12px;font-weight:800;color:rgba(15,23,42,.70);
+      background:rgba(255,255,255,.75);border:1px solid rgba(15,23,42,.08);padding:7px 10px;border-radius:999px; width:fit-content}
+    .title{position:relative;font-size:22px;font-weight:900;line-height:1.05;margin:12px 0 6px}
+    .sub{position:relative;color:var(--muted);font-weight:700;font-size:13px;margin:0 0 14px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;position:relative}
+    .btn{
+      cursor:pointer;
+      border:1px solid rgba(15,23,42,.10);
+      background:rgba(255,255,255,.85);
+      padding:10px 12px;border-radius:999px;
+      font-weight:900;
+      text-decoration:none;color:var(--text);
+      box-shadow:0 10px 20px rgba(15,23,42,.08);
+    }
+    .btn.primary{background:rgba(47,123,220,.12);border-color:rgba(47,123,220,.25)}
+    .btn:hover{transform:translateY(-1px)}
+
+    /* Modal RDV */
+    .overlay{position:fixed;inset:0;background:rgba(2,6,23,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+    .overlay.show{display:flex}
+    .modal{
+      width:min(900px,100%);
+      border-radius:26px;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(15,23,42,.10);
+      box-shadow:0 30px 90px rgba(0,0,0,.35);
+      overflow:hidden;
+    }
+    .modal-top{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:16px 18px;border-bottom:1px solid rgba(15,23,42,.08)
+    }
+    .modal-top h3{margin:0;font-size:18px;font-weight:1000}
+    .close{border:0;background:transparent;font-size:22px;cursor:pointer;font-weight:900}
+    .modal-body{display:grid;grid-template-columns: 1.2fr .8fr;gap:0}
+    @media (max-width:860px){.modal-body{grid-template-columns:1fr}}
+
+    .form{padding:18px}
+    .form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:560px){.form .row{grid-template-columns:1fr}}
+    label{display:block;font-size:12px;font-weight:900;color:rgba(15,23,42,.75);margin:10px 0 6px}
+    input, select, textarea{
+      width:100%;padding:12px 12px;border-radius:14px;border:1px solid rgba(15,23,42,.14);
+      background:rgba(255,255,255,.85);outline:none;font-weight:700
+    }
+    textarea{min-height:90px;resize:vertical}
+    .submit{
+      margin-top:14px;width:100%;padding:12px 14px;border-radius:16px;
+      border:1px solid rgba(47,123,220,.30);background:rgba(47,123,220,.14);
+      font-weight:1000;cursor:pointer
+    }
+
+    .side{
+      padding:18px;
+      border-left:1px solid rgba(15,23,42,.08);
+      background: radial-gradient(700px 200px at 50% 0%, rgba(47,123,220,.14), transparent 65%);
+    }
+    .side .box{
+      border-radius:22px;background:rgba(255,255,255,.75);border:1px solid rgba(15,23,42,.08);
+      padding:14px;box-shadow:0 14px 30px rgba(15,23,42,.10)
+    }
+    .k{font-size:12px;color:var(--muted);font-weight:800;margin:10px 0 2px}
+    .v{font-weight:1000;margin:0 0 10px}
+    .small{font-size:12px;color:var(--muted);font-weight:700}
+
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="dot"></span>THE NEW PHONE</div>
+      <a class="btn-back" href="tablette-apple.html">← Retour Apple</a>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="crumb" id="crumb">Appareil / Tablette / Apple</div>
+
+    <section class="hero">
+      <h1 id="h1">Choisissez la réparation</h1>
+      <p id="subtitle">Réparation Apple</p>
+      <div class="rule"></div>
+    </section>
+
+    <section class="grid" id="grid"></section>
+  </main>
+
+  <!-- MODAL RDV -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-top">
+        <h3 id="modalTitle">Prise de rendez-vous</h3>
+        <button class="close" id="closeBtn" aria-label="Fermer">×</button>
+      </div>
+
+      <div class="modal-body">
+        <form class="form" id="rdvForm">
+          <div class="row">
+            <div>
+              <label>Magasin *</label>
+              <select id="magasin" required>
+                <option value="8 Rue de Marseille, 69007 Lyon">8 Rue de Marseille, 69007 Lyon</option>
+              </select>
+            </div>
+            <div>
+              <label>Téléphone *</label>
+              <input id="tel" type="tel" placeholder="06 00 00 00 00" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Nom *</label>
+              <input id="nom" type="text" placeholder="Nom" required />
+            </div>
+            <div>
+              <label>Prénom *</label>
+              <input id="prenom" type="text" placeholder="Prénom" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Email *</label>
+              <input id="email" type="email" placeholder="ex: client@gmail.com" required />
+            </div>
+            <div>
+              <label>Date *</label>
+              <input id="date" type="date" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Heure *</label>
+              <input id="heure" type="time" required />
+            </div>
+            <div>
+              <label>Remarque</label>
+              <input id="remarque" type="text" placeholder="Ex: écran noir / tactile ne répond plus..." />
+            </div>
+          </div>
+
+          <button class="submit" type="submit">Confirmer la réservation</button>
+          <p class="small" style="margin:10px 0 0;">Prix variés • Confirmation après diagnostic.</p>
+        </form>
+
+        <aside class="side">
+          <div class="box">
+            <div class="k">Appareil</div>
+            <p class="v" id="sumAppareil">Tablette</p>
+
+            <div class="k">Marque</div>
+            <p class="v">Apple</p>
+
+            <div class="k">Modèle</div>
+            <p class="v" id="sumModele">—</p>
+
+            <div class="k">Réparation</div>
+            <p class="v" id="sumReparation">—</p>
+
+            <hr style="border:none;border-top:1px solid rgba(15,23,42,.10);margin:12px 0" />
+
+            <div class="k">Contact</div>
+            <p class="small" style="margin:6px 0 0;">
+              📞 04 87 78 79 95<br>
+              ✉️ 7henewphone@gmail.com<br>
+              📍 8 Rue de Marseille, 69007 Lyon
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Réparations uniques par modèle (selon TES photos)
+    const DATA = {
+      "ipad-mini": {
+        label: "iPad Mini",
+        reparations: ["Vitre tactile", "Connecteur de charge", "LCD", "Wifi"]
+      },
+      "ipad-air": {
+        label: "iPad Air",
+        reparations: ["Vitre"]
+      },
+      "ipad-2": {
+        label: "iPad 2",
+        reparations: ["Changement Vitre Tactile iPad 2", "Changement Écran iPad 2", "LCD + Tactile"]
+      },
+      "ipad-air-2017-a1822-a1823": {
+        label: "iPad Air 2017 A1822–A1823",
+        reparations: ["Vitre tactile", "Écran LCD", "Batterie"]
+      },
+      "ipad-air-2": {
+        label: "iPad Air 2",
+        reparations: ["Bloc écran"]
+      }
+    };
+
+    const qs = new URLSearchParams(location.search);
+    const key = qs.get("modele") || "ipad-mini";
+    const current = DATA[key] || DATA["ipad-mini"];
+
+    // header
+    document.getElementById("crumb").textContent = `Appareil / Tablette / Apple / ${current.label}`;
+    document.getElementById("subtitle").textContent = `Réparation ${current.label}`;
+    document.getElementById("sumModele").textContent = current.label;
+
+    // cards
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+    current.reparations.forEach(rep => {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.innerHTML = `
+        <span class="blob"></span>
+        <div>
+          <span class="pill">${current.label}</span>
+          <h2 class="title">${rep}</h2>
+          <p class="sub">Prix variés • Réservation en magasin</p>
+        </div>
+        <div class="actions">
+          <button class="btn primary" type="button">Réserver</button>
+        </div>
+      `;
+      card.querySelector("button").addEventListener("click", () => openRdv(rep));
+      grid.appendChild(card);
+    });
+
+    // modal
+    const overlay = document.getElementById("overlay");
+    const closeBtn = document.getElementById("closeBtn");
+    closeBtn.addEventListener("click", closeRdv);
+    overlay.addEventListener("click", (e) => { if(e.target === overlay) closeRdv(); });
+    document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeRdv(); });
+
+    function openRdv(reparation){
+      document.getElementById("modalTitle").textContent = `Prise de rendez-vous : ${reparation} - ${current.label}`;
+      document.getElementById("sumReparation").textContent = reparation;
+      overlay.classList.add("show");
+      overlay.setAttribute("aria-hidden","false");
+    }
+    function closeRdv(){
+      overlay.classList.remove("show");
+      overlay.setAttribute("aria-hidden","true");
+    }
+
+    // submit (démo)
+    document.getElementById("rdvForm").addEventListener("submit", (e)=>{
+      e.preventDefault();
+      alert("Réservation envoyée ✅ (à connecter ensuite à ton back/email si tu veux)");
+      closeRdv();
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>

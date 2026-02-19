@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réparation - The New Phone</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#f4f7fb;
+}
+
+header{
+  background:white;
+  padding:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+.logo{
+  font-size:26px;
+  font-weight:bold;
+  color:#5fa8ff;
+}
+
+.back{
+  text-decoration:none;
+  background:#5fa8ff;
+  color:white;
+  padding:10px 20px;
+  border-radius:25px;
+  font-weight:bold;
+}
+
+.container{
+  max-width:800px;
+  margin:60px auto;
+  background:white;
+  padding:40px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+  text-align:center;
+}
+
+h1{
+  margin-bottom:20px;
+}
+
+.service{
+  font-size:22px;
+  font-weight:bold;
+  color:#5fa8ff;
+  margin-bottom:10px;
+}
+
+.price{
+  font-size:18px;
+  font-weight:bold;
+  color:#333;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">THE NEW PHONE</div>
+  <a href="smartphone.html" class="back">← Retour</a>
+</header>
+
+<div class="container">
+  <h1 id="title"></h1>
+
+  <div class="service">Changement d’écran</div>
+  <div class="price">Prix variés</div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const brand = params.get("brand");
+const model = params.get("model");
+
+document.getElementById("title").textContent =
+  "Réparation " + brand + " " + model;
+</script>
+
+</body>
+</html>
+

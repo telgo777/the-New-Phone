@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sony — The New Phone</title>
+
+  <style>
+    :root{
+      --bg:#f8fafc;
+      --card:#ffffffcc;
+      --text:#111827;
+      --muted:#6b7280;
+      --red:#ef4444;
+      --red2:#fb7185;
+      --border:#eef2f7;
+      --shadow: 0 18px 40px rgba(239,68,68,.10);
+      --shadow2: 0 12px 26px rgba(15,23,42,.06);
+      --radius: 18px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 30% -10%, rgba(239,68,68,.10), transparent 55%),
+                  radial-gradient(900px 600px at 90% 10%, rgba(251,113,133,.08), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:auto;padding:0 18px}
+
+    /* ===== Topbar ===== */
+    header{
+      position:sticky; top:0; z-index:50;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .header{
+      height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      font-weight:900; letter-spacing:.6px;
+      color:var(--text);
+    }
+    .bolt{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
+      background: linear-gradient(180deg, rgba(239,68,68,.16), rgba(239,68,68,.06));
+      border:1px solid rgba(239,68,68,.18);
+      box-shadow: 0 10px 25px rgba(239,68,68,.15);
+      animation: pop 900ms ease both;
+    }
+    @keyframes pop{from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1}}
+    .brandName{font-size:28px;color:#000}
+
+    .nav{
+      display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+      font-weight:700; color:#374151;
+    }
+    .nav a{position:relative;padding:8px 2px}
+    .nav a::after{
+      content:""; position:absolute; left:0; bottom:2px;
+      width:0; height:2px;
+      background: linear-gradient(90deg, var(--red), var(--red2));
+      transition: width .25s ease;
+    }
+    .nav a:hover::after{width:100%}
+
+    .ctaTop{
+      padding:10px 14px; border-radius:14px;
+      background: linear-gradient(90deg, var(--red), var(--red2));
+      color:white; font-weight:900;
+      border:1px solid rgba(239,68,68,.25);
+      box-shadow: 0 14px 28px rgba(239,68,68,.18);
+      transition: transform .2s ease, box-shadow .2s ease;
+      white-space:nowrap;
+      display:inline-flex; align-items:center; gap:8px;
+      cursor:pointer;
+    }
+    .ctaTop:hover{transform:translateY(-2px); box-shadow:0 18px 34px rgba(239,68,68,.24)}
+    .pulseDot{
+      display:inline-block;width:8px;height:8px;border-radius:999px;background:#fff;
+      box-shadow: 0 0 0 rgba(255,255,255,.7);
+      animation: pulse 1.4s infinite;
+    }
+    @keyframes pulse{
+      0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}
+      70%{box-shadow:0 0 0 10px rgba(255,255,255,0)}
+      100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
+    }
+
+    /* ===== Page ===== */
+    main{padding:28px 0 60px}
+    .crumb{color:var(--muted); font-weight:700; font-size:14px; margin-top:6px}
+    .hero{padding:16px 0 12px; text-align:center}
+    .heroTitle{font-size:34px;font-weight:900;letter-spacing:-0.3px}
+    .heroSub{margin-top:8px;color:var(--muted);font-size:16px;font-weight:700}
+    .rule{
+      height:4px; width:min(820px, 92%);
+      margin:16px auto 16px;
+      background:linear-gradient(90deg, transparent, var(--red), transparent);
+      border-radius:999px; opacity:.9;
+    }
+
+    /* ===== Grid ===== */
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 22px;
+    }
+    @media (max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:520px){.grid{grid-template-columns:1fr}.brandName{font-size:22px}}
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      min-height: 210px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      gap: 12px;
+      box-shadow: var(--shadow2);
+      position:relative;
+      overflow:hidden;
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      padding:18px;
+      text-align:center;
+      cursor:pointer;
+    }
+    .card.reveal{animation: rise .7s ease forwards}
+    @keyframes rise{to{transform:translateY(0);opacity:1}}
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-60%;
+      background: radial-gradient(circle at 30% 20%, rgba(239,68,68,.14), transparent 55%),
+                  radial-gradient(circle at 70% 30%, rgba(251,113,133,.10), transparent 60%);
+      filter: blur(18px);
+      opacity:.8;
+      transform: translateX(-8%);
+      pointer-events:none;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      top:-60%;
+      left:-120%;
+      width:120%;
+      height:220%;
+      background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.65) 50%, transparent 65%);
+      transform: rotate(12deg);
+      opacity:0;
+      pointer-events:none;
+    }
+    .card:hover{transform:translateY(-7px); box-shadow:var(--shadow); border-color: rgba(239,68,68,.22)}
+    .card:hover::after{opacity:1; animation: shimmer 1.1s ease}
+    @keyframes shimmer{from{left:-120%}to{left:120%}}
+
+    .logoBox{
+      width:120px; height:120px;
+      display:grid; place-items:center;
+      border-radius: 22px;
+      background: #ffffff;
+      border: 1px solid #f2f4f8;
+    }
+    .label{font-weight: 1000;color:#334155;font-size: 16px}
+    .hint{font-size: 12px;color: var(--muted); margin-top:-6px; font-weight:900}
+
+    /* ===== Repairs ===== */
+    #repSection{margin-top:34px}
+    .sectionTitle{font-size:22px;font-weight:1000;letter-spacing:-.2px;text-align:left}
+    .sectionSub{margin-top:6px;color:var(--muted);font-weight:800}
+    .pillRow{
+      margin-top:14px;
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .chip{
+      padding:10px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.85);
+      border:1px solid rgba(239,68,68,.20);
+      box-shadow:0 10px 20px rgba(15,23,42,.06);
+      font-weight:900;
+      font-size:13px;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .chipBtn{
+      cursor:pointer;
+      background: linear-gradient(90deg, rgba(239,68,68,.14), rgba(251,113,133,.10));
+    }
+
+    /* ===== Modal RDV ===== */
+    .overlay{
+      position:fixed; inset:0;
+      background: rgba(2,6,23,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:99;
+    }
+    .overlay.show{display:flex}
+    .modal{
+      width:min(920px, 100%);
+      border-radius:26px;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(15,23,42,.10);
+      box-shadow:0 30px 90px rgba(0,0,0,.35);
+      overflow:hidden;
+      animation: pop2 .18s ease-out;
+    }
+    @keyframes pop2{from{transform:scale(.98);opacity:.6}to{transform:scale(1);opacity:1}}
+    .modal-top{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:16px 18px;
+      border-bottom:1px solid rgba(15,23,42,.08);
+    }
+    .modal-top h3{margin:0;font-size:18px;font-weight:1000}
+    .close{
+      border:0;background:transparent;
+      font-size:22px;font-weight:1000;cursor:pointer;
+    }
+    .modal-body{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+    }
+    @media (max-width:860px){.modal-body{grid-template-columns:1fr}}
+    .form{padding:18px}
+    .form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:560px){.form .row{grid-template-columns:1fr}}
+    label{display:block;font-size:12px;font-weight:900;color:rgba(15,23,42,.75);margin:10px 0 6px}
+    input, select{
+      width:100%; padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(15,23,42,.14);
+      background:rgba(255,255,255,.85);
+      outline:none;
+      font-weight:700;
+    }
+    .submit{
+      margin-top:14px; width:100%;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid rgba(239,68,68,.25);
+      background: linear-gradient(90deg, rgba(239,68,68,.18), rgba(251,113,133,.12));
+      font-weight:1000;
+      cursor:pointer;
+    }
+
+    .side{
+      padding:18px;
+      border-left:1px solid rgba(15,23,42,.08);
+      background: radial-gradient(700px 200px at 50% 0%, rgba(239,68,68,.14), transparent 65%);
+    }
+    .side .box{
+      border-radius:22px;
+      background:rgba(255,255,255,.78);
+      border:1px solid rgba(15,23,42,.08);
+      padding:14px;
+      box-shadow:0 14px 30px rgba(15,23,42,.10);
+    }
+    .k{font-size:12px;color:var(--muted);font-weight:900;margin:10px 0 2px}
+    .v{font-size:16px;font-weight:1000;margin:0 0 10px}
+    .small{font-size:12px;color:var(--muted);font-weight:800;line-height:1.5}
+
+    footer{
+      margin-top: 56px;
+      background:#fff;
+      border-top:1px solid var(--border);
+      padding:18px 0;
+      color:var(--muted);
+      font-weight:800;
+    }
+    .foot{
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container header">
+      <div class="brand">
+        <div class="bolt">⚡</div>
+        <div class="brandName">THE NEW PHONE</div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html">Accueil</a>
+        <a href="smartphone.html">Smartphone</a>
+        <a href="tablette.html">Tablette</a>
+        <a href="ordinateur.html">Ordinateur</a>
+        <a href="magasins.html">Magasin</a>
+      </nav>
+
+      <a class="ctaTop" href="contact.html"><span class="pulseDot"></span>Réparer</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="crumb">Appareil / Smartphone / Sony</div>
+
+    <section class="hero">
+      <div class="heroTitle">Sony — Smartphone</div>
+      <div class="heroSub">Choisis ton modèle (réparation : écran)</div>
+      <div class="rule"></div>
+    </section>
+
+    <section class="grid" id="modelGrid"></section>
+
+    <section id="repSection">
+      <h2 class="sectionTitle">Réparations disponibles</h2>
+      <p class="sectionSub">Modèle : <strong id="selectedModel">Aucun</strong></p>
+
+      <div class="pillRow" id="repRow">
+        <span class="chip">⬆️ Clique sur un modèle au-dessus</span>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container foot">
+        <div>© <span id="year"></span> The New Phone — Lyon 7</div>
+        <div>📞 04 87 78 79 95</div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- MODAL RDV -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-top">
+        <h3 id="modalTitle">Prise de rendez-vous</h3>
+        <button class="close" id="closeBtn" aria-label="Fermer">×</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- ✅ UN SEUL FORM + ENVOI SHEETS -->
+        <form class="form" id="rdvForm"
+          action="https://script.google.com/macros/s/AKfycbyWDi0AXatrw2VqBwzcSYAZ3CFzmGhkqedkXcvuSCbM8tVz2t9XrbMU5ucsCo75kpgc/exec"
+          method="POST">
+
+          <!-- ✅ CHAMPS CACHÉS -->
+          <input type="hidden" name="appareil" value="Smartphone">
+          <input type="hidden" name="marque" value="Sony">
+          <input type="hidden" name="modele" id="f_modele" value="">
+          <input type="hidden" name="reparation" id="f_reparation" value="">
+
+          <div class="row">
+            <div>
+              <label>Magasin *</label>
+              <select name="magasin" required>
+                <option value="8 Rue de Marseille, 69007 Lyon">8 Rue de Marseille, 69007 Lyon</option>
+              </select>
+            </div>
+            <div>
+              <label>Téléphone *</label>
+              <input type="tel" name="telephone" placeholder="06 00 00 00 00" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Nom *</label>
+              <input type="text" name="nom" placeholder="Nom" required />
+            </div>
+            <div>
+              <label>Prénom *</label>
+              <input type="text" name="prenom" placeholder="Prénom" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Email *</label>
+              <input type="email" name="email" placeholder="ex: client@gmail.com" required />
+            </div>
+            <div>
+              <label>Date *</label>
+              <input type="date" name="date" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Heure *</label>
+              <input type="time" name="heure" required />
+            </div>
+            <div>
+              <label>Remarque</label>
+              <input type="text" name="message" placeholder="Ex : écran fissuré / tactile HS..." />
+            </div>
+          </div>
+
+          <button class="submit" type="submit">Confirmer la réservation</button>
+          <p class="small" style="margin-top:10px;">Prix variés • Confirmation après diagnostic.</p>
+        </form>
+
+        <aside class="side">
+          <div class="box">
+            <div class="k">Appareil</div>
+            <p class="v">Smartphone</p>
+
+            <div class="k">Marque</div>
+            <p class="v">Sony</p>
+
+            <div class="k">Modèle</div>
+            <p class="v" id="sumModel">—</p>
+
+            <div class="k">Réparation</div>
+            <p class="v" id="sumRepair">—</p>
+
+            <hr style="border:none;border-top:1px solid rgba(15,23,42,.10);margin:12px 0" />
+
+            <div class="k">Contact</div>
+            <p class="small">
+              📞 04 87 78 79 95<br>
+              ✉️ 7henewphone@gmail.com<br>
+              📍 8 Rue de Marseille, 69007 Lyon
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Modèles Sony (comme tu as mis)
+    const MODELS = [
+      "Sony Xperia XA F3111",
+      "Xperia XZ F8332",
+      "Xperia XZ Premium G8142",
+      "Xperia XZ1 Compact G8441",
+      "Xperia XZ1 G8341",
+      "Z3 COMPACT"
+    ];
+
+    function sonySvg(){
+      return `
+        <svg width="130" height="40" viewBox="0 0 520 170" aria-hidden="true">
+          <text x="0" y="120" font-size="120" font-weight="900" fill="#111827" font-family="Arial">SONY</text>
+        </svg>
+      `;
+    }
+
+    const modelGrid = document.getElementById("modelGrid");
+    const selectedModel = document.getElementById("selectedModel");
+    const repRow = document.getElementById("repRow");
+
+    function renderModels(){
+      modelGrid.innerHTML = MODELS.map(m => `
+        <div class="card" data-model="${encodeURIComponent(m)}" role="button" tabindex="0" aria-label="${m}">
+          <div class="logoBox">${sonySvg()}</div>
+          <div class="label">${m}</div>
+          <div class="hint">Clique pour voir la réparation</div>
+        </div>
+      `).join("");
+
+      const cards = document.querySelectorAll(".card");
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("reveal");
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      cards.forEach((c, i) => {
+        c.style.animationDelay = (i * 55) + "ms";
+        io.observe(c);
+
+        const model = decodeURIComponent(c.getAttribute("data-model"));
+        c.addEventListener("click", ()=> showRepairs(model));
+        c.addEventListener("keydown", (e)=>{ if(e.key==="Enter" || e.key===" "){ e.preventDefault(); showRepairs(model); } });
+      });
+    }
+
+    function showRepairs(model){
+      selectedModel.textContent = model;
+
+      const reps = ["Changement écran"]; // comme tu veux
+      repRow.innerHTML = "";
+
+      reps.forEach(rep=>{
+        const chip = document.createElement("button");
+        chip.type="button";
+        chip.className="chip chipBtn";
+        chip.innerHTML = `🛠️ <strong>${rep}</strong> <span style="color:var(--muted);font-weight:900;">— Prix variés • Réserver</span>`;
+        chip.addEventListener("click", ()=> openRdv(model, rep));
+        repRow.appendChild(chip);
+      });
+
+      document.getElementById("repSection").scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    // ===== Modal RDV =====
+    const overlay = document.getElementById("overlay");
+    const closeBtn = document.getElementById("closeBtn");
+    const modalTitle = document.getElementById("modalTitle");
+    const sumModel = document.getElementById("sumModel");
+    const sumRepair = document.getElementById("sumRepair");
+
+    function openRdv(model, rep){
+      modalTitle.textContent = `Prise de rendez-vous : ${rep} — ${model}`;
+      sumModel.textContent = model;
+      sumRepair.textContent = rep;
+
+      // ✅ remplir hidden fields
+      document.getElementById("f_modele").value = model;
+      document.getElementById("f_reparation").value = rep;
+
+      overlay.classList.add("show");
+      overlay.setAttribute("aria-hidden","false");
+      document.body.style.overflow="hidden";
+    }
+
+    function closeRdv(){
+      overlay.classList.remove("show");
+      overlay.setAttribute("aria-hidden","true");
+      document.body.style.overflow="";
+    }
+    closeBtn.addEventListener("click", closeRdv);
+    overlay.addEventListener("click", (e)=>{ if(e.target===overlay) closeRdv(); });
+    document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeRdv(); });
+
+    // ✅ IMPORTANT : pas de preventDefault ici -> ça envoie vers Sheets
+
+    renderModels();
+  </script>
+</body>
+</html>
+
+
+

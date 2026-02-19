@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Samsung Galaxy Note — Modèles</title>
+
+  <style>
+    :root{
+      --bg:#f6f9ff;
+      --card:#fff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --blue:#4da3ff;
+      --blue2:#1e7aff;
+      --red:#ff4d4d;
+      --line:#cfe2ff;
+      --shadow: 0 16px 40px rgba(2, 20, 60, .10);
+      --shadow2: 0 26px 70px rgba(2, 20, 60, .14);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 10% 0%, #e9f2ff 0%, transparent 55%),
+        radial-gradient(900px 600px at 95% 10%, #fff0f0 0%, transparent 55%),
+        var(--bg);
+    }
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.86);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(207,226,255,.95);
+    }
+    .navwrap{
+      max-width:1200px; margin:0 auto; padding:14px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:900}
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px; border-radius:999px;
+      text-decoration:none; font-weight:900;
+      color:var(--text);
+      background:#fff;
+      border:1px solid rgba(207,226,255,.95);
+      box-shadow:0 10px 22px rgba(2,20,60,.08);
+      transition:.25s;
+      white-space:nowrap;
+    }
+    .pill:hover{transform:translateY(-2px); box-shadow:var(--shadow)}
+    .pill.primary{color:#fff; border:0; background:linear-gradient(135deg,var(--blue),var(--blue2))}
+
+    .crumbs{
+      max-width:1200px;margin:18px auto 0; padding:0 18px;
+      color:var(--muted); font-size:14px
+    }
+    .hero{max-width:1200px;margin:0 auto;padding:26px 18px 8px;text-align:center}
+    h1{margin:0; font-size: clamp(24px, 4vw, 40px); letter-spacing:-.02em}
+    .sub{margin:10px 0 0;color:var(--muted)}
+    .divider{
+      max-width:1200px;margin:18px auto 0;height:4px;border-radius:999px;
+      background:linear-gradient(90deg,transparent,var(--blue),transparent);
+    }
+
+    .grid{
+      max-width:1200px;margin:18px auto 70px; padding:18px;
+      display:grid; gap:18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    a.model{
+      position:relative;
+      border-radius: var(--radius);
+      text-decoration:none;
+      color:var(--text);
+      background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.92));
+      border:1px solid rgba(207,226,255,.95);
+      box-shadow: 0 14px 34px rgba(2,20,60,.08);
+      padding:18px;
+      transition:.28s;
+      overflow:hidden;
+      animation: pop .45s ease both;
+    }
+    a.model:hover{transform: translateY(-6px); box-shadow: var(--shadow2)}
+    .badge{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 12px; border-radius:999px;
+      background: rgba(255,77,77,.10);
+      border:1px solid rgba(255,77,77,.25);
+      color:#9b1c1c;
+      font-weight:900;
+    }
+    .name{margin:12px 0 0; font-size:20px; font-weight:950}
+    .muted{margin:8px 0 0; color:var(--muted); font-weight:700; font-size:14px}
+    .btn{
+      margin-top:14px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px; border-radius:999px;
+      font-weight:900;
+      color:#0b3d91;
+      background: rgba(77,163,255,.12);
+      border:1px solid rgba(77,163,255,.25);
+    }
+    .shine{
+      position:absolute; inset:-60px;
+      background: linear-gradient(120deg, transparent 35%, rgba(77,163,255,.18) 50%, transparent 65%);
+      transform: translateX(-40%) rotate(8deg);
+      opacity:.0;
+      transition:.25s;
+      pointer-events:none;
+    }
+    a.model:hover .shine{
+      opacity:1;
+      transform: translateX(30%) rotate(8deg);
+    }
+
+    .foot{
+      padding:18px;
+      text-align:center;
+      color:var(--muted);
+      border-top:1px solid rgba(207,226,255,.95);
+      background:rgba(255,255,255,.60);
+    }
+    @keyframes pop{
+      from{opacity:0; transform: translateY(14px)}
+      to{opacity:1; transform: translateY(0)}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="navwrap">
+      <div class="brand">⚡ THE NEW PHONE</div>
+      <div class="actions">
+        <a class="pill" href="samsung.html">⬅ Retour séries</a>
+        <a class="pill primary" href="smartphone.html">📱 Smartphone</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="crumbs">Appareil / Smartphone / Samsung / <b>Galaxy Note</b></div>
+
+  <section class="hero">
+    <h1>Samsung Galaxy Note</h1>
+    <p class="sub">Choisissez votre modèle (exemples)</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="grid">
+    <a class="model" href="reparation-modele.html">
+      <div class="shine"></div>
+      <div class="badge">⭐ Populaire</div>
+      <div class="name">Galaxy Note 20 Ultra</div>
+      <div class="muted">Écran • Batterie • Connecteur</div>
+      <div class="btn">🔧 Voir réparations</div>
+    </a>
+
+    <a class="model" href="reparation-modele.html">
+      <div class="shine"></div>
+      <div class="badge">⭐ Populaire</div>
+      <div class="name">Galaxy Note 10</div>
+      <div class="muted">Écran • Vitre arrière</div>
+      <div class="btn">🔧 Voir réparations</div>
+    </a>
+
+    <a class="model" href="reparation-modele.html">
+      <div class="shine"></div>
+      <div class="badge">✅</div>
+      <div class="name">Galaxy Note 9</div>
+      <div class="muted">Batterie • Micro • Caméra</div>
+      <div class="btn">🔧 Voir réparations</div>
+    </a>
+
+    <a class="model" href="reparation-modele.html">
+      <div class="shine"></div>
+      <div class="badge">✅</div>
+      <div class="name">Galaxy Note 8</div>
+      <div class="muted">Écran • Connecteur de charge</div>
+      <div class="btn">🔧 Voir réparations</div>
+    </a>
+  </section>
+
+  <footer class="foot">
+    © <span id="year"></span> The New Phone — Samsung Galaxy Note
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

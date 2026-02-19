@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FAQ — The New Phone</title>
+
+  <style>
+    :root{
+      --bg:#f6f8fc;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:rgba(15,23,42,.08);
+      --blue:#3b82f6;
+      --red:#ef4444;
+      --shadow:0 18px 40px rgba(15,23,42,.10);
+      --r:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 420px at 12% -10%, rgba(59,130,246,.16), transparent 55%),
+        radial-gradient(900px 420px at 90% 10%, rgba(239,68,68,.12), transparent 55%),
+        var(--bg);
+    }
+    .container{max-width:1100px;margin:0 auto;padding:0 18px}
+
+    /* TOPBAR */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.86);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .navrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:950;letter-spacing:.04em}
+    .logoMark{
+      width:38px;height:38px;border-radius:12px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg, rgba(239,68,68,.14), rgba(59,130,246,.18));
+      border:1px solid var(--line);
+      box-shadow:0 10px 24px rgba(15,23,42,.08);
+    }
+    .logoText{font-size:18px}
+    .nav{display:flex;gap:16px;align-items:center;font-weight:800;color:var(--muted)}
+    .nav a{
+      text-decoration:none;color:inherit;
+      padding:10px 10px;border-radius:12px;
+      transition:.2s;
+    }
+    .nav a:hover{background:rgba(59,130,246,.08);color:var(--text)}
+    .navBtn{
+      text-decoration:none;
+      padding:10px 14px;border-radius:14px;
+      font-weight:950;color:var(--text);
+      border:1px solid var(--line);
+      background:linear-gradient(135deg, rgba(59,130,246,.20), rgba(239,68,68,.14));
+      transition:.2s;
+    }
+    .navBtn:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(15,23,42,.10)}
+    @media (max-width:860px){.nav{display:none}}
+
+    /* HERO */
+    .hero{padding:34px 0 14px}
+    .heroCard{
+      background:linear-gradient(135deg, rgba(59,130,246,.10), rgba(239,68,68,.08));
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .heroCard::before{
+      content:"";
+      position:absolute;inset:-90px;
+      background:conic-gradient(from 180deg,
+        rgba(59,130,246,.26),
+        rgba(239,68,68,.24),
+        rgba(59,130,246,.18)
+      );
+      filter: blur(30px);
+      opacity:.55;
+      animation: floatGlow 8s ease-in-out infinite;
+    }
+    @keyframes floatGlow{
+      0%,100%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(14px) rotate(12deg)}
+    }
+    .heroInner{position:relative;padding:26px 22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .crumbs{color:rgba(100,116,139,.95);font-weight:800;font-size:13px}
+    .crumbs a{color:inherit;text-decoration:none}
+    .crumbs a:hover{color:var(--text);text-decoration:underline}
+    h1{margin:6px 0 6px;font-size:34px;letter-spacing:-.02em}
+    .sub{margin:0;color:var(--muted);font-weight:650;line-height:1.55;max-width:680px}
+    .heroActions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .pill{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 12px;border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.78);
+      font-weight:900;color:var(--text);
+      text-decoration:none;
+      transition:.2s;
+    }
+    .pill:hover{transform:translateY(-1px);box-shadow:0 12px 20px rgba(15,23,42,.10)}
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background:linear-gradient(135deg,var(--blue),var(--red));
+      box-shadow:0 8px 16px rgba(59,130,246,.25);
+    }
+
+    /* LAYOUT */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:18px;
+      margin-top:16px;
+      padding-bottom:44px;
+    }
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+    /* FAQ PANEL */
+    .panel{
+      background:rgba(255,255,255,.78);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .panelHead{
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.65));
+    }
+    .panelHead h2{margin:0;font-size:18px;letter-spacing:-.01em}
+    .panelHead small{color:var(--muted);font-weight:800}
+    .faqList{padding:10px}
+
+    details{
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      border-radius:16px;
+      margin:10px 0;
+      overflow:hidden;
+      transition:.2s;
+    }
+    details[open]{box-shadow:0 18px 35px rgba(15,23,42,.10);transform:translateY(-1px)}
+    summary{
+      list-style:none;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+      padding:14px 14px;
+      font-weight:950;
+    }
+    summary::-webkit-details-marker{display:none}
+    .qleft{display:flex;align-items:flex-start;gap:12px}
+    .qicon{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg, rgba(59,130,246,.18), rgba(239,68,68,.14));
+      border:1px solid var(--line);
+      flex:0 0 auto;
+    }
+    .caret{
+      width:36px;height:36px;border-radius:12px;
+      display:grid;place-items:center;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.85);
+      transition:.2s;
+      flex:0 0 auto;
+    }
+    details[open] .caret{transform:rotate(180deg)}
+    .answer{
+      padding:0 16px 16px 58px;
+      color:var(--muted);
+      font-weight:650;
+      line-height:1.6;
+      animation: fade .25s ease-out;
+    }
+    @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+    /* SIDE */
+    .side{display:flex;flex-direction:column;gap:12px}
+    .sideCard{
+      padding:16px;
+      background:rgba(255,255,255,.78);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+    }
+    .sideCard h3{margin:0 0 8px;font-size:18px}
+    .sideCard p{margin:0;color:var(--muted);font-weight:650;line-height:1.55}
+    .tagRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .tag{
+      font-weight:950;font-size:12px;
+      padding:8px 10px;border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.86);
+    }
+    .btnRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .btn{
+      text-decoration:none;
+      padding:10px 12px;border-radius:14px;
+      font-weight:950;color:var(--text);
+      border:1px solid var(--line);
+      background:linear-gradient(135deg, rgba(59,130,246,.18), rgba(239,68,68,.12));
+      transition:.2s;
+    }
+    .btn:hover{transform:translateY(-1px);box-shadow:0 12px 20px rgba(15,23,42,.10)}
+    .btn.outline{background:rgba(255,255,255,.86)}
+
+    /* FOOTER */
+    .footer{
+      background:rgba(255,255,255,.78);
+      border-top:1px solid var(--line);
+      margin-top:24px;
+    }
+    .footInner{
+      display:flex;gap:16px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;
+      padding:18px 0;
+    }
+    .footCol{min-width:220px}
+    .footTitle{font-weight:950;margin:0 0 10px}
+    .footLink{
+      display:block;
+      color:var(--muted);
+      font-weight:800;
+      text-decoration:none;
+      padding:6px 0;
+    }
+    .footLink:hover{color:var(--text);text-decoration:underline}
+    .copy{
+      border-top:1px solid var(--line);
+      padding:12px 0;
+      color:rgba(100,116,139,.92);
+      font-weight:800;
+      font-size:13px;
+    }
+    .brandLogo{
+  height:50px;
+  width:auto;
+  display:block;
+}
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="container navrow">
+      <div class="brand">
+  <img src="assets/logo.png" alt="The New Phone" class="brandLogo">
+</div>
+
+
+      <nav class="nav">
+        <a href="index.html">ACCUEIL</a>
+        <a href="smartphone.html">SMARTPHONE</a>
+        <a href="tablette.html">TABLETTE</a>
+        <a href="magasin.html">MAGASIN</a>
+        <a href="faq.html" style="color:var(--text); background:rgba(59,130,246,.08);">FAQ</a>
+      </nav>
+
+      <a class="navBtn" href="smartphone.html">← Retour Smartphone</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="heroCard">
+        <div class="heroInner">
+          <div>
+            <div class="crumbs"><a href="index.html">Accueil</a> / <strong>FAQ</strong></div>
+            <h1>FAQ</h1>
+            <p class="sub">
+              Tout ce qu’il faut savoir avant de venir chez <strong>The New Phone</strong> (Lyon 7) :
+              délais, rendez-vous, garantie, changement d’écran, etc.
+            </p>
+          </div>
+
+          <div class="heroActions">
+            <a class="pill" href="tel:0487787995"><span class="dot"></span> 04 87 78 79 95</a>
+            <a class="pill" href="mailto:7henewphone@gmail.com"><span class="dot"></span> 7henewphone@gmail.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- FAQ -->
+        <div class="panel">
+          <div class="panelHead">
+            <h2>Questions fréquentes</h2>
+            <small>10 questions</small>
+          </div>
+
+          <div class="faqList">
+            <details open>
+              <summary>
+                <div class="qleft">
+                  <div class="qicon">📍</div>
+                  <div>Où se trouve The New Phone ?</div>
+                </div>
+                <div class="caret">⌄</div>
+              </summary>
+              <div class="answer">
+                Notre magasin est situé au <strong>8 Rue de Marseille, 69007 Lyon</strong>.
+              </div>
+            </details>
+
+            <details>
+              <summary>
+                <div class="qleft">
+                  <div class="qicon">📅</div>
+                  <div>Peut-on venir sans rendez-vous ?</div>
+                </div>
+                <div class="caret">⌄</div>
+              </summary>
+              <div class="answer">
+                Oui, vous pouvez passer <strong>sans rendez-vous</strong>. Si vous voulez éviter l’attente, réservez un créneau.
+              </div>
+            </details>
+
+            <details>
+              <summary>
+                <div class="qleft">
+                  <div class="qicon">🧾</div>
+                  <div>Quels services proposez-vous sur le site ?</div>
+                </div>
+                <div class="caret">⌄</div>
+              </summary>
+              <div class="answer">
+                Actuellement, sur les pages marques/modèles : <strong>Changement d’écran</strong> (écran uniquement).
+              </div>
+            </details>
+
+            <details>
+              <summary>
+                <div class="qleft">
+                  <div class="qicon">⏱️</div>
+                  <div>Combien de temps prend un changement d’écran ?</div>
+                </div>
+                <div class="caret">⌄</div>
+              </summary>
+              <div class="answer">
+                C’est souvent une réparation rapide. Le délai dépend du <strong>modèle</strong> et de la <strong>disponibilité</strong> de la pièce.
+              </div>
+            </details>
+
+            <details>
+              <summary>
+                <div class="qleft">
+                  <div class="qicon">💶</div>
+                  <div>Quel est le prix d’un changement d’écran ?</div>
+                </div>
+                <div class="caret">⌄</div>
+              </summary>
+              <div class="answer">
+                Les tarifs sont <strong>variables</strong> selon le modèle et la pièce. Sur votre site, vous pouvez afficher “<strong>Prix variées</strong>”.
+              </div>
+            </details>
+
+            <details>
+              <summary>
+                <div class="qleft">
+                  <div class="qicon">🛡️</div>
+                  <div>Y a-t-il une garantie sur la réparation ?</div>
+                </div>
+                <div class="caret">⌄</div>
+              </summary>
+              <div class="answer">
+                Oui, une garantie s’applique selon la réparation effectuée (pièce + main d’œuvre).
+              </div>
+            </details>
+
+            <details>
+              <summary>
+                <div class="qleft">
+                  <div class="qicon">🔎</div>
+                  <div>Faites-vous un test après réparation ?</div>
+                </div>
+                <div class="caret">⌄</div>
+              </summary>
+              <div class="answer">
+                Oui, on fait un <strong>contrôle qualité</strong> (affichage, tactile et vérifications de base).
+              </div>
+            </details>
+
+            <details>
+              <summary>
+                <div class="qleft">
+                  <div class="qicon">📱</div>
+                  <div>Quelles marques réparez-vous ?</div>
+                </div>
+                <div class="caret">⌄</div>
+              </summary>
+              <div class="answer">
+                D’après vos pages : Apple, Samsung, Huawei, Xiaomi, Nokia, Sony, Wiko (et autres selon vos ajouts).
+              </div>
+            </details>
+
+            <details>
+              <summary>
+                <div class="qleft">
+                  <div class="qicon">📦</div>
+                  <div>Mes données sont-elles en danger ?</div>
+                </div>
+                <div class="caret">⌄</div>
+              </summary>
+              <div class="answer">
+                Pour un écran, les données restent généralement intactes, mais une sauvegarde est toujours conseillée si possible.
+              </div>
+            </details>
+
+            <details>
+              <summary>
+                <div class="qleft">
+                  <div class="qicon">📩</div>
+                  <div>Comment vous contacter rapidement ?</div>
+                </div>
+                <div class="caret">⌄</div>
+              </summary>
+              <div class="answer">
+                Téléphone : <strong>04 87 78 79 95</strong><br/>
+                Email : <strong>7henewphone@gmail.com</strong>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- SIDE -->
+        <div class="side">
+          <div class="sideCard">
+            <h3>Infos rapides</h3>
+            <p>
+              Un seul magasin : <strong>Lyon 7</strong>.<br/>
+              Service principal sur le site : <strong>Changement d’écran</strong>.
+            </p>
+
+            <div class="tagRow">
+              <span class="tag">Réparation express</span>
+              <span class="tag">Lyon 7</span>
+              <span class="tag">Sans RDV</span>
+              <span class="tag">Garantie</span>
+            </div>
+
+            <div class="btnRow">
+              <a class="btn" href="tel:0487787995">📞 Appeler</a>
+              <a class="btn outline" href="mailto:7henewphone@gmail.com">✉️ Mail</a>
+            </div>
+          </div>
+
+          <div class="sideCard">
+            <h3>Adresse</h3>
+            <p><strong>8 Rue de Marseille</strong><br/>69007 Lyon</p>
+            <div class="btnRow">
+              <a class="btn" target="_blank"
+                 href="https://www.google.com/maps?q=8%20Rue%20de%20Marseille%2069007%20Lyon">📍 Itinéraire</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footInner">
+        <div class="footCol">
+          <p class="footTitle">The New Phone</p>
+          <a class="footLink" href="magasin.html">📍 8 Rue de Marseille, 69007 Lyon</a>
+          <a class="footLink" href="tel:0487787995">📞 04 87 78 79 95</a>
+          <a class="footLink" href="mailto:7henewphone@gmail.com">✉️ 7henewphone@gmail.com</a>
+        </div>
+
+        <div class="footCol">
+          <p class="footTitle">Navigation</p>
+          <a class="footLink" href="smartphone.html">Smartphone</a>
+          <a class="footLink" href="tablette.html">Tablette</a>
+          <a class="footLink" href="magasin.html">Magasin</a>
+          <a class="footLink" href="faq.html">FAQ</a>
+        </div>
+
+        <div class="footCol">
+          <p class="footTitle">Réseaux</p>
+          <a class="footLink" target="_blank" href="https://www.instagram.com/thenewphone69/?hl=fr">Instagram : @thenewphone69</a>
+        </div>
+      </div>
+
+      <div class="copy">© <span id="year"></span> The New Phone — Tous droits réservés.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+

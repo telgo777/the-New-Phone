@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ordinateur - Réparations indisponibles</title>
+
+  <style>
+    :root{
+      --bg:#eef3f8;
+      --card:#ffffffcc;
+      --text:#0f172a;
+      --muted:#64748b;
+      --blue:#2f7bdc;
+      --shadow:0 18px 40px rgba(15,23,42,.10);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 300px at 20% 20%, rgba(47,123,220,.18), transparent 60%),
+        radial-gradient(900px 300px at 80% 10%, rgba(59,130,246,.12), transparent 60%),
+        linear-gradient(180deg,#f7fbff 0%, var(--bg) 100%);
+      min-height:100vh;
+    }
+
+    /* Top bar */
+    .topbar{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter:blur(10px);
+      background:rgba(247,251,255,.75);
+      border-bottom:1px solid rgba(15,23,42,.06);
+    }
+    .topbar-inner{
+      max-width:1100px;
+      margin:0 auto;
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      font-weight:900;
+      letter-spacing:.3px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .brand .dot{
+      width:10px;height:10px;border-radius:999px;
+      background:var(--blue);
+      box-shadow:0 0 0 6px rgba(47,123,220,.15);
+    }
+    .btn-back{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(15,23,42,.10);
+      color:var(--text);
+      background:rgba(255,255,255,.8);
+      box-shadow:0 10px 20px rgba(15,23,42,.08);
+      font-weight:700;
+    }
+
+    /* Content */
+    .wrap{max-width:1100px;margin:0 auto;padding:18px 16px 56px}
+    .crumb{color:var(--muted);font-size:14px;margin:8px 0 12px}
+    .hero{text-align:center;padding:18px 10px 10px}
+    .hero h1{margin:6px 0 6px;font-size:clamp(26px,3vw,40px);letter-spacing:-.5px}
+    .hero p{margin:0;color:var(--muted);font-weight:600}
+    .rule{
+      height:4px;
+      width:min(780px,90%);
+      margin:16px auto 26px;
+      background:linear-gradient(90deg,transparent,var(--blue),transparent);
+      border-radius:999px;
+      opacity:.9;
+    }
+
+    .panel{
+      margin:0 auto;
+      width:min(920px,100%);
+      background:var(--card);
+      border:1px solid rgba(15,23,42,.06);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .panel-top{
+      padding:22px 22px 10px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      font-weight:900;
+      color:rgba(15,23,42,.72);
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(15,23,42,.08);
+      padding:7px 10px;
+      border-radius:999px;
+      width:fit-content;
+    }
+    .status{
+      font-weight:1000;
+      font-size:22px;
+      margin:10px 0 6px;
+      letter-spacing:-.3px;
+    }
+    .desc{
+      margin:0;
+      color:var(--muted);
+      font-weight:700;
+      line-height:1.4;
+    }
+
+    .panel-body{
+      padding:18px 22px 22px;
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:16px;
+    }
+    @media (max-width:860px){.panel-body{grid-template-columns:1fr}}
+
+    .info{
+      border-radius:22px;
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(15,23,42,.08);
+      padding:16px;
+    }
+    .info h3{
+      margin:0 0 10px;
+      font-size:16px;
+      font-weight:1000;
+    }
+    .list{margin:0;padding-left:18px;color:var(--muted);font-weight:700}
+    .list li{margin:6px 0}
+
+    .contact{
+      border-radius:22px;
+      background: radial-gradient(700px 200px at 50% 0%, rgba(47,123,220,.14), transparent 65%),
+                  rgba(255,255,255,.75);
+      border:1px solid rgba(15,23,42,.08);
+      padding:16px;
+    }
+    .chip{
+      display:block;
+      margin:10px 0 0;
+      padding:10px 12px;
+      border-radius:14px;
+      background:rgba(255,255,255,.85);
+      border:1px solid rgba(15,23,42,.10);
+      text-decoration:none;
+      color:var(--text);
+      font-weight:900;
+    }
+    .chip span{color:var(--muted);font-weight:800;margin-left:6px}
+
+    /* Footer */
+    footer{
+      margin-top:44px;
+      border-top:1px solid rgba(15,23,42,.08);
+      background:rgba(255,255,255,.55);
+      backdrop-filter:blur(10px);
+    }
+    .foot-inner{
+      max-width:1100px;margin:0 auto;
+      padding:18px 16px;
+      display:flex;flex-wrap:wrap;
+      gap:14px;align-items:center;justify-content:space-between;
+      color:var(--muted);font-weight:600;
+    }
+    .foot-links{display:flex;flex-wrap:wrap;gap:12px}
+    .foot-links a{
+      color:var(--text);text-decoration:none;font-weight:900;
+      border-bottom:2px solid transparent;
+    }
+    .foot-links a:hover{border-bottom-color:var(--blue)}
+    
+    .brandLogo{
+  height:50px;
+  width:auto;
+  display:block;
+}
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+     <div class="brand">
+  <img src="assets/logo.png" alt="The New Phone" class="brandLogo">
+</div>
+
+      <a class="btn-back" href="index.html">← Retour</a>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="crumb">Appareil / Ordinateur</div>
+
+    <section class="hero">
+      <h1>Ordinateur</h1>
+      <p>Aucune réparation n’est disponible en ce moment</p>
+      <div class="rule"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-top">
+        <div>
+          <div class="badge">⚠️ Indisponible</div>
+          <div class="status">Service ordinateur temporairement fermé</div>
+          <p class="desc">
+            Pour le moment, nous ne prenons pas de réparations d’ordinateurs.
+            Revenez bientôt ou contactez-nous pour être informé dès la réouverture.
+          </p>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="info">
+          <h3>Ce que vous pouvez faire</h3>
+          <ul class="list">
+            <li>Nous appeler pour vérifier les disponibilités.</li>
+            <li>Nous envoyer un email avec le modèle et le problème.</li>
+            <li>Passer en magasin (8 Rue de Marseille, 69007 Lyon).</li>
+          </ul>
+        </div>
+
+        <div class="contact">
+          <h3 style="margin:0 0 6px;font-size:16px;font-weight:1000;">Contact</h3>
+          <a class="chip" href="tel:0487787995">📞 04 87 78 79 95 <span>Appeler</span></a>
+          <a class="chip" href="mailto:7henewphone@gmail.com">✉️ 7henewphone@gmail.com <span>Email</span></a>
+          <a class="chip" href="https://www.instagram.com/thenewphone69/" target="_blank" rel="noopener">
+            📷 Instagram <span>@thenewphone69</span>
+          </a>
+          <div class="chip" style="cursor:default;">
+            📍 8 Rue de Marseille, 69007 Lyon
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="foot-inner">
+        <div class="foot-links">
+          <a href="faq.html">FAQ</a>
+          <a href="nos-services.html">Nos services</a>
+          <a href="https://www.instagram.com/thenewphone69/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+        <div>© THE NEW PHONE</div>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

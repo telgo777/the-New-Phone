@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smartphone — The New Phone</title>
+
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#1b1f2a;
+      --muted:#6b7280;
+      --line:#e7e9f3;
+
+      /* blanc + rouge clair */
+      --accent:#ff4d6d;
+      --accent2:#ff8aa0;
+
+      --shadow: 0 14px 40px rgba(20, 25, 40, .08);
+      --shadow2: 0 18px 60px rgba(255, 77, 109, .16);
+      --radius:22px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 350px at 15% 0%, rgba(255,77,109,.10), transparent 60%),
+        radial-gradient(800px 320px at 85% 10%, rgba(255,138,160,.10), transparent 60%),
+        var(--bg);
+    }
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .container{max-width:1100px; margin:0 auto; padding:0 18px;}
+    .navrow{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 0;}
+    .logo{display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.6px;}
+    .logoMark{
+      width:40px; height:40px; border-radius:14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, rgba(255,77,109,.18), rgba(255,138,160,.18));
+      border:1px solid rgba(255,77,109,.25);
+      box-shadow: var(--shadow2);
+    }
+    .logoText{font-size:18px;}
+    .nav{display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:center}
+    .nav a{
+      text-decoration:none; color:#111827; font-weight:700;
+      padding:10px 10px; border-radius:12px;
+      transition: .2s ease;
+    }
+    .nav a:hover{background: rgba(255,77,109,.08); color:var(--accent)}
+    .navBtn{
+      text-decoration:none; font-weight:900;
+      padding:10px 14px; border-radius:14px;
+      color:white;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 16px 40px rgba(255,77,109,.25);
+      transition:.2s ease;
+      white-space:nowrap;
+    }
+    .navBtn:hover{transform: translateY(-1px); filter:saturate(1.05);}
+
+    .hero{
+      padding:34px 0 12px;
+    }
+    .title{
+      text-align:center;
+      margin:22px 0 10px;
+      font-size:34px;
+      letter-spacing:-.6px;
+      animation: pop .55s ease both;
+    }
+    .subtitle{
+      text-align:center;
+      color:var(--muted);
+      margin:0 0 24px;
+      animation: fadeUp .65s ease .08s both;
+    }
+    @keyframes fadeUp {from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)}}
+    @keyframes pop {from{opacity:0; transform:scale(.98)} to{opacity:1; transform:scale(1)}}
+
+    .sectionLine{
+      height:4px; width:min(760px, 92%);
+      margin: 18px auto 26px;
+      background: linear-gradient(90deg, transparent, rgba(255,77,109,.55), transparent);
+      border-radius:999px;
+      position:relative;
+      overflow:hidden;
+    }
+    .sectionLine::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+      transform: translateX(-100%);
+      animation: shine 2.2s ease-in-out infinite;
+    }
+    @keyframes shine{to{transform:translateX(100%)}}
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap:18px;
+      padding-bottom:40px;
+    }
+    @media (max-width: 980px){ .grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width: 520px){ .grid{grid-template-columns:1fr} }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:22px 18px;
+      min-height:190px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:16px;
+      text-decoration:none;
+      color:inherit;
+      position:relative;
+      overflow:hidden;
+      transform: translateY(0);
+      transition: .22s ease;
+      animation: fadeUp .6s ease both;
+    }
+    .card:nth-child(2){animation-delay:.05s}
+    .card:nth-child(3){animation-delay:.10s}
+    .card:nth-child(4){animation-delay:.15s}
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(400px 240px at 20% 0%, rgba(255,77,109,.18), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .card:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 18px 60px rgba(20, 25, 40, .10), 0 18px 80px rgba(255,77,109,.12);
+      border-color: rgba(255,77,109,.25);
+    }
+    .brandBig{
+      font-size:28px;
+      font-weight:950;
+      letter-spacing:-.6px;
+      margin:0;
+    }
+    .brandSmall{
+      color:var(--muted);
+      font-weight:700;
+      margin:0;
+    }
+    .pill{
+      margin-top:10px;
+      font-weight:900;
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,77,109,.25);
+      background: rgba(255,77,109,.08);
+      color: var(--accent);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="container navrow">
+      <div class="logo">
+        <div class="logoMark">⚡</div>
+        <div class="logoText">THE NEW PHONE</div>
+      </div>
+
+      <nav class="nav">
+        <a href="reparations-smartphone.html">SMARTPHONE</a>
+        <a href="reparations-tablette.html">TABLETTE</a>
+        <a href="reparations-ordinateur.html">ORDINATEUR</a>
+        <a href="magasin.html">MAGASIN</a>
+        <a href="avis.html">AVIS</a>
+      </nav>
+
+      <a class="navBtn" href="reparations-smartphone.html">RÉPARER</a>
+    </div>
+  </header>
+
+  <main class="container hero">
+    <h1 class="title">Choisissez la marque</h1>
+    <p class="subtitle">Réparation Smartphone — sélection rapide (style clean + animé)</p>
+    <div class="sectionLine"></div>
+
+    <section class="grid">
+      <a class="card" href="smartphone-samsung.html">
+        <h2 class="brandBig">Samsung</h2>
+        <p class="brandSmall">Galaxy Note • S • A • J</p>
+        <span class="pill">🔧 Voir modèles</span>
+      </a>
+
+      <a class="card" href="smartphone-apple.html">
+        <h2 class="brandBig">Apple</h2>
+        <p class="brandSmall">iPhone (toutes séries)</p>
+        <span class="pill">🔧 Voir modèles</span>
+      </a>
+
+      <a class="card" href="smartphone-huawei.html">
+        <h2 class="brandBig">Huawei</h2>
+        <p class="brandSmall">P • Mate • Nova</p>
+        <span class="pill">🔧 Voir modèles</span>
+      </a>
+
+      <a class="card" href="smartphone-xiaomi.html">
+        <h2 class="brandBig">Xiaomi</h2>
+        <p class="brandSmall">Redmi • Mi</p>
+        <span class="pill">🔧 Voir modèles</span>
+      </a>
+    </section>
+  </main>
+</body>
+</html>
